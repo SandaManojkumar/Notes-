@@ -32,7 +32,7 @@ function App() {
   const fetchNotes = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/notes");
+      const res = await axios.get("/api/notes");
       setNotes(res.data || []);
     } catch (err) {
       console.error(err);
@@ -66,10 +66,10 @@ function App() {
       if (!title.trim() && !content.trim()) return;
       if (selected) {
         // update
-        await axios.put(`http://localhost:5000/api/notes/${selected._id}`, { title, content, status });
+        await axios.put(`/api/notes/${selected._id}`, { title, content, status });
         setToast('Note updated');
       } else {
-        await axios.post("http://localhost:5000/api/notes", { title, content, status });
+        await axios.post("/api/notes", { title, content, status });
         setToast('Note added');
       }
       setTitle("");
@@ -89,7 +89,7 @@ function App() {
   const deleteNote = async (id) => {
     try {
       if (!window.confirm('Delete this note?')) return;
-      await axios.delete(`http://localhost:5000/api/notes/${id}`);
+      await axios.delete(`/api/notes/${id}`);
       fetchNotes();
       setToast('Note deleted');
     } catch (err) {

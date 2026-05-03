@@ -1,17 +1,24 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Note = require("./models/Notes");
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
 
-// MongoDB connection
-mongoose.connect("mongodb+srv://2210030429_db_user:minnu%402004@cluster0.cdjyr60.mongodb.net/")
-.then(() => console.log("MongoDB connected"))
-.catch(err => console.log(err));
+// Simple request logger to help debug network issues
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  next();
+});
 
 const cors = require("cors");
 app.use(cors());
+
+// MongoDB connection (use MONGO_URI from env if present)
+
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 // ✅ CREATE
 app.post("/api/notes", async (req, res) => {
